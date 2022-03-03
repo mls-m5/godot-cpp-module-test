@@ -1,0 +1,4 @@
+Import('env')
+env.add_source_files(env.modules_sources, "*.cpp")
+env.Append(CPPPATH=["mylib/include"]) # this is a relative path
+env.Append(CPPPATH=["#myotherlib/include"]) # this is an 'absolute' path
