@@ -1,4 +1,32 @@
 Import('env')
-env.add_source_files(env.modules_sources, "*.cpp")
-env.Append(CPPPATH=["mylib/include"]) # this is a relative path
-env.Append(CPPPATH=["#myotherlib/include"]) # this is an 'absolute' path
+
+module_env = env.Clone()
+module_env.Append(CCFLAGS=['-O2'])
+
+#if ARGUMENTS.get('summator_shared', 'no') == 'yes':
+   # Compile shared
+   #modules_env.Append(CCFLAGS=['-fPIC'])
+   #module_env['LIBS'] = []
+   #shared_lib = module_env.SharedLibrary(target='#bin/summator', sources="*.cpp")
+   #shared_lib_shim = shared_lib[0].name.rsplit('.', 1)[0]
+   #env.Append(LIBS=[shared_lib_shim])
+   #env.Append(LIBSPATH=['#bin'])
+#else:
+#   env.add_source_files(env.modules_sources, "*.cpp")
+#   env.Append(CPPPATH=["mylib/include"]) # this is a relative path
+#   env.Append(CPPPATH=["#myotherlib/include"]) # this is an 'absolute' path
+
+if False:
+   module_env.Append(CCFLAGS=['-fPIC'])
+   module_env['LIBS'] = []
+   shared_lib = module_env.SharedLibrary(target='#bin/summator', source=Glob("*.cpp"))
+   shared_lib_shim = shared_lib[0].name.rsplit('.', 1)[0]
+   env.Append(LIBS=[shared_lib_shim])
+   env.Append(LIBSPATH=['#bin'])
+
+module_env.Append(CCFLAGS=['-fPIC'])
+module_env['LIBS'] = []
+shared_lib = module_env.SharedLibrary(target='#bin/summator', source=Glob("*.cpp"))
+shared_lib_shim = shared_lib[0].name.rsplit('.', 1)[0]
+env.Append(LIBS=[shared_lib_shim])
+env.Append(LIBPATH=['#bin'])
